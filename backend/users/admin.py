@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.users.models import CustomUser, UserEmailVerification
+from backend.users.models import CustomUser, UserEmailVerification
 from .models import *
 
 # Register your models here.

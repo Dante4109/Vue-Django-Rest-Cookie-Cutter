@@ -1,10 +1,10 @@
-from api.user_profile import views
+from backend.profile import views
 from rest_framework.permissions import BasePermission, AllowAny, SAFE_METHODS
-from api.users import models
+from backend.users import models
 from django.shortcuts import get_object_or_404, render
 from rest_framework import status, viewsets, views
 from .models import UserProfile
-from .serializers import UserProfileSerializer
+from .serializers import ProfileSerializer
 from django.http import Http404, JsonResponse, HttpResponse
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
@@ -14,9 +14,9 @@ import json
 import requests
 
 
-class UserProfileView(viewsets.ModelViewSet):
+class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+    serializer_class = ProfileSerializer
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -29,16 +29,16 @@ class UserProfileView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserProfilePublicListView(views.APIView):
+class ProfilePublicListView(views.APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         queryset = UserProfile.objects.all()
-        serializer_class = UserProfileSerializer(queryset, many=True)
+        serializer_class = ProfileSerializer(queryset, many=True)
         return Response(serializer_class.data)
 
 
-class UserProfilePublicView(views.APIView):
+class ProfilePublicView(views.APIView):
     permission_classes = [AllowAny]
 
     def get_object(self, pk):
@@ -50,7 +50,7 @@ class UserProfilePublicView(views.APIView):
         except ObjectDoesNotExist:
             return Response({"UserProfile not found"}, status=404)
 
-        serializer_class = UserProfileSerializer(queryset, data=request.data)
+        serializer_class = ProfileSerializer(queryset, data=request.data)
         if serializer_class.is_valid():
             return JsonResponse(serializer_class.data, status=200)
         else:
@@ -59,7 +59,7 @@ class UserProfilePublicView(views.APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class UserProfileSetup(views.APIView):
+class ProfileSetup(views.APIView):
     def post(self, request, *args, **kwargs):
 
         user_json = request.data.get("user", None)
@@ -74,7 +74,7 @@ class UserProfileSetup(views.APIView):
             return JsonResponse({"error": "User does not exist."}, status=404)
 
         print(str(user))
-        # print(str(user.user_profile.id))
+        # print(str(user.profile.id))
 
         profile_defaults = {
             "last_updated": None,
@@ -82,26 +82,25 @@ class UserProfileSetup(views.APIView):
             "last_name": "",
             "age": None,
             "records": "",
-            "games": "",
             "pronouns": "",
             "region": "",
             "facts": "",
             "ImgUrl": "none",
         }
 
-        NewUserProfile, created = UserProfile.objects.get_or_create(
-            id=user.user_profile_id, defaults=profile_defaults
+        NewProfile, created = UserProfile.objects.get_or_create(
+            id=user.profile_id, defaults=profile_defaults
         )
         print("We are actually here")
-        NewUserProfile.save()
+        NewProfile.save()
         print("We are here")
-        user.user_profile = NewUserProfile
+        user.profile = NewProfile
         user.save()
 
         serialized = serializers.serialize(
             "json",
             [
-                NewUserProfile,
+                NewProfile,
             ],
             fields=(
                 "id",

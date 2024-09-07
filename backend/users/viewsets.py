@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from backend import user_profile
+from backend import profile
 from backend.users.serializers import UserSerializer
 from rest_framework import viewsets, permissions
 from rest_framework.generics import CreateAPIView
@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 from .permissions import IsOwner
 from django.http import Http404
-from backend.user_profile.views import UserProfileSetup
+from backend.profile.views import ProfileSetup
 import json
 
 

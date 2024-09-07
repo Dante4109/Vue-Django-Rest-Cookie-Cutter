@@ -2,7 +2,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
 # from django.utils.translation import ugettext_lazy as _
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
+from backend.profile.models import UserProfile
 
 # Adding Mail Handling for User Password Reset
 from django.dispatch import receiver
@@ -49,7 +50,7 @@ class CustomUser(AbstractUser):
     username = None
     name = models.CharField(max_length=65, default="name")
     email = models.EmailField(unique=True)
-    user_profile = models.ForeignKey(
+    profile = models.ForeignKey(
         UserProfile, null=True, blank=True, on_delete=models.SET_NULL
     )
     is_verified = models.BooleanField(default=False)

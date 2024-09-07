@@ -10,13 +10,14 @@ from django.conf import settings
 
 
 @receiver(post_save, sender=CustomUser)
-def post_save_create_player(sender, instance, created, **kwargs):
+def post_save_create_profile(sender, instance, created, **kwargs):
     print("New user created")
     if created:
         # Example for User Verification Token Generation
         v_token = uuid.uuid4()
         new_verification = UserEmailVerification.objects.create(
-            user_id=instance.id, verification_token=v_token)
+            user_id=instance.id, verification_token=v_token
+        )
 
         # Sending the Email
         # replace with environment file eventually
@@ -25,14 +26,15 @@ def post_save_create_player(sender, instance, created, **kwargs):
         site_shortcut_name = "affinitycore.net"
 
         context = {
-            'email': instance.email,
-            'email_verification_url': "{}/email_verification/{}".format(site_url, v_token),
-            'site_name': site_shortcut_name,
-            'site_domain': site_url
+            "email": instance.email,
+            "email_verification_url": "{}/email_verification/{}".format(
+                site_url, v_token
+            ),
+            "site_name": site_shortcut_name,
+            "site_domain": site_url,
         }
 
-        email_html_message = render_to_string(
-            'user_email_verification.html', context)
+        email_html_message = render_to_string("user_email_verification.html", context)
 
         msg = EmailMultiAlternatives(
             # title:
@@ -44,16 +46,16 @@ def post_save_create_player(sender, instance, created, **kwargs):
             # "no-reply@{}".format(site_shortcut_name),
             "NoReply@AffinityCore.net",
             # to:
-            [instance.email]
+            [instance.email],
         )
         msg.attach_alternative(email_html_message, "text/html")
         msg.send()
 
     else:
         try:
-            player = get_object_or_404(Players, id=instance.player_id)
-            player.name = instance.name
-            player.save()
+            profile = get_object_or_404(profiles, id=instance.profile_id)
+            profile.name = instance.name
+            profile.save()
         except:
             # An unhandled Error has occured
             pass

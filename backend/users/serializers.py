@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from .models import UserEmailVerification
 
 UserModel = get_user_model()
@@ -33,8 +32,8 @@ class UserSerializer(serializers.ModelSerializer):
         if "email" in validated_data:
             instance.email = validated_data.pop("email")
 
-        if "player" in validated_data:
-            instance.player = validated_data.pop("player")
+        if "profile" in validated_data:
+            instance.profile = validated_data.pop("profile")
 
         if "name" in validated_data:
             instance.name = validated_data.pop("name")
@@ -52,8 +51,8 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "email",
             "password",
-            "user_profile",
-            "user_profile_id",
+            "profile",
+            "profile_id",
             "name",
             "last_login",
             "is_superuser",
