@@ -1,6 +1,4 @@
 // Plugins
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Fonts from 'unplugin-fonts/vite'
@@ -17,8 +15,6 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   plugins: [
     VueRouter(),
-    vueJsx(),
-    vueDevTools(),
     Layouts(),
     Vue({
       template: { transformAssetUrls }
@@ -69,4 +65,3 @@ export default defineConfig({
     port: 3000,
   },
 })
-
