@@ -1,10 +1,10 @@
 <template>
-  <Navbar />
   <HelloWorld />
 </template>
 
 <script setup>
-import Navbar from '@/components/Navbar.vue';
+import HelloWorld from '@/components/HelloWorld.vue';
+
 
   //
 </script>

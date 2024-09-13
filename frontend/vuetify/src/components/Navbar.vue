@@ -1,15 +1,18 @@
 <template>
-  <v-app-bar color="primary">
+  <v-app-bar app rounded color="primary" class="hidden-xs-and-down">
     <!-- Logo -->
-    <v-img
-    src="@/assets/logo.png"
-    max-height="40"
-    max-width="40"
-    contain
-    class="mr-4"
-    ></v-img>
-
-    <v-spacer></v-spacer>
+    
+      <v-toolbar-title>
+      <a @click="$router.replace('/')">
+      <v-img
+      src="@/assets/logo.png"
+      max-height="40"
+      max-width="40"
+      contain
+      class="mr-4">
+      </v-img>
+      </a>
+      </v-toolbar-title>
     
     <!-- Navigation items -->
     <v-toolbar-items>
@@ -18,6 +21,7 @@
           <v-btn
           v-bind="props"
           :class="{ 'highlight-nav': item.highlight }"
+          @click="$router.push('/product/' + item.num)"
           @mouseover="highlightItem(item)"
           @mouseleave="unhighlightItem(item)"
           >
@@ -50,11 +54,11 @@
 import { ref } from 'vue'
 
 const navItems = ref([
-  { title: 'Game', highlight: false },
-  { title: 'Cards', highlight: false },
-  { title: 'Community', highlight: false },
-  { title: 'News', highlight: false },
-  { title: 'Test', highlight: false },
+  { num: 1, title: 'Game', highlight: false },
+  { num: 2, title: 'Cards', highlight: false },
+  { num: 3, title: 'Community', highlight: false },
+  { num: 4, title: 'News', highlight: false },
+  { num: 5, title: 'Test', highlight: false },
 ])
 
 const highlightItem = (item) => {
