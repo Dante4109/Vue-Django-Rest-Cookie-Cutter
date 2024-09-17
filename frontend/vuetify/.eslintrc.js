@@ -10,6 +10,8 @@ module.exports = {
     node: true,
   },
   extends: [
+    'plugin:vue/base',
+    'plugin:vuetify/base',
     'vuetify',
     './.eslintrc-auto-import.json',
   ],

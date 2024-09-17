@@ -43,30 +43,53 @@
 
 <v-spacer></v-spacer>
 
-<!-- User profile icon -->
-<v-btn icon>
-  <v-icon>mdi-account-circle</v-icon>
-</v-btn>
-</v-app-bar>
+<!-- Login or User profile icon -->
+<div>
+      <v-btn right icon @click="emitMyEvent">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+            v-bind="attrs"
+            v-on="on"
+            >mdi-login</v-icon>
+            </template>
+              <span>Login or Sign Up</span>
+            </v-tooltip>
+      </v-btn>
+    </div>
+  </v-app-bar>
+
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
+export default {
+  name: "Navbar",
+  data() {
+    return {
+      navItems: ([
+        { num: 1, title: 'Game', highlight: false },
+        { num: 2, title: 'Cards', highlight: false },
+        { num: 3, title: 'Community', highlight: false },
+        { num: 4, title: 'News', highlight: false },
+        { num: 5, title: 'Test', highlight: false },
+      ])
+    };
+  },
+  created() {
 
-const navItems = ref([
-  { num: 1, title: 'Game', highlight: false },
-  { num: 2, title: 'Cards', highlight: false },
-  { num: 3, title: 'Community', highlight: false },
-  { num: 4, title: 'News', highlight: false },
-  { num: 5, title: 'Test', highlight: false },
-])
-
-const highlightItem = (item) => {
-  item.highlight = true
-}
-
-const unhighlightItem = (item) => {
-  item.highlight = false
+  },
+  methods: {
+    highlightItem(item) {
+      item.highlight = true
+    },
+    unhighlightItem(item) {
+      item.highlight = false
+    },
+    emitMyEvent() {
+      console.log("Clicked button")
+      this.emitter.emit('mydialog');
+    }
+  },
 }
 </script>
 
