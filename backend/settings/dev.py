@@ -27,12 +27,11 @@ from dotenv import load_dotenv
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-SETTINGS_DIR = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
+SETTINGS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(SETTINGS_DIR)
 load_dotenv(os.path.join(str(SETTINGS_DIR), ".env"))
 
+print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -53,8 +52,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "whitenoise.runserver_nostatic",
     "rest_framework",
     "django_rest_passwordreset",
+    "corsheaders",
     "backend.users",
     "backend.profile",
 ]
@@ -62,6 +63,9 @@ INSTALLED_APPS = [
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(hours=5)}
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+# Site Settings
+APPEND_SLASH = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -71,7 +75,16 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
+MIDDLEWARE_CLASSES = (
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "app.CorsMiddleware",
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -100,7 +113,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["dist", "backend/users"],
+        "DIRS": ["frontend/dist", "backend/users"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -108,6 +121,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.media",
             ],
         },
     },
@@ -174,13 +188,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+# Place static in the same location as webpack build files
+STATIC_ROOT = os.path.join(BASE_DIR, "frontend", "dist", "static")
+STATICFILES_DIRS = (
+    ("js", os.path.join(STATIC_ROOT, "js")),
+    ("css", os.path.join(STATIC_ROOT, "css")),
+    ("img", os.path.join(STATIC_ROOT, "img")),
+    ("fonts", os.path.join(STATIC_ROOT, "fonts")),
+)
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles_cdn")
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 # Override settings with local env vars
 try:

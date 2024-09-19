@@ -46,9 +46,9 @@ router = routers.DefaultRouter()
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path("", include(router.urls)),
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("admin/", admin.site.urls),
+    # API Backend Views
     path(
         "api/auth/obtain_token/",
         CustomTokenObtainPairView.as_view(),
@@ -77,5 +77,7 @@ urlpatterns = [
         ProfilePublicListView.as_view(),
         name="profilelist_public",
     ),
+    # Web App Views
+    path("", index_view, name="index"),
     path("email_verification/<str:token>", index_view, name="user_email_verificaiton"),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

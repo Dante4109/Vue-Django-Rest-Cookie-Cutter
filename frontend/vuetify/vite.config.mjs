@@ -10,6 +10,7 @@ import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -64,4 +65,37 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-})
+  root: path.resolve(__dirname),
+  build: {
+    outDir: '../dist',
+    emptyOutDir: true, // also necessary
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'static/js/[name]-[hash].js',
+        entryFileNames: 'static/js/[name]-[hash].js',
+        
+        assetFileNames: ({name}) => {
+          if (/\.(ico)$/.test(name ?? '')){
+              return 'static/[name]-[hash][extname]';
+          }
+          
+          if (/\.(gif|jpe?g|png|svg)$/.test(name ?? '')) {
+              return 'static/img/[name]-[hash][extname]';
+          }
+          
+          if (/\.css$/.test(name ?? '')) {
+              return 'static/css/[name]-[hash][extname]';   
+          }
+
+          if (/\.(ttf|eot|woff2|woff)$/.test(name ?? '')) {
+              return 'static/fonts/[name]-[hash][extname]';   
+          }
+ 
+          // default value
+          // ref: https://rollupjs.org/guide/en/#outputassetfilenames
+          return 'static/[name]-[hash][extname]';
+        },
+      },
+    }
+  },
+});
