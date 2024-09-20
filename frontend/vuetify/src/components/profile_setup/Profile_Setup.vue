@@ -22,23 +22,23 @@ export default {
       profileCheck: false,
   }),
   created() {
-      this.newPlayerProfile()
+      this.newUserProfile()
   },
 
   methods:{
-    async newPlayerProfile() {
+    async newUserProfile() {
         
         // console.log(payload)
         this.profileCheck = await this.newProfileCheck();
         if(this.profileCheck) {
           //Toast Message Email Verified, you can now log in
-          this.displayNotification("authentication", "Creating new player profile", `You are being redirected` + '\n' + `Welcome to Affinity Core!`, 'success')
+          this.displayNotification("authentication", "Creating new user profile", `You are being redirected` + '\n' + `Welcome to Affinity Core!`, 'success')
           this.refreshUser()
           this.$router.push("/") 
         }
         else {
-          console.log("Failed to create player profile")
-          this.displayNotification("authentication", "Failed to create player profile", `You are being redirected.` + '\n' + `Please contact an administraor`, "error")
+          console.log("Failed to create user profile")
+          this.displayNotification("authentication", "Failed to create user profile", `You are being redirected.` + '\n' + `Please contact an administraor`, "error")
           this.$router.push("/")
         }
     },
@@ -47,7 +47,7 @@ export default {
       this.validatedToken =  await this.tokenCheck();
       if(this.validatedToken) {
         //Toast Message Email Verified, you can now log in
-        this.displayNotification("authentication", "Creating new player profile", "You are being redirected. `Welcome to Affinity Core!`", "success")
+        this.displayNotification("authentication", "Creating new user profile", "You are being redirected. `Welcome to Affinity Core!`", "success")
         //Force Router Navigate to Home "/"
         }
       else {
@@ -68,7 +68,7 @@ export default {
         let payload = {
           "user": id
         }
-        const tokenStatus = await userService.createPlayerProfile(payload);
+        const tokenStatus = await userService.createUserProfile(payload);
         return tokenStatus.status===201?true:false
       },
 
