@@ -77,7 +77,7 @@ export default {
                 .then((user) => {
                   if(user.is_verified) {
                     this.$store.commit('updateSessionUser', user)                
-                      if(user.player_profile_id) {
+                      if(user.profile_id) {
                         this.displayNotification('authentication', 'Login successful', `Welcome back.`, 'success')
                         this.$emit("closeDialog")
                       }

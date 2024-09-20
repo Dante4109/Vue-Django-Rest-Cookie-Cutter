@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import api from '@/services/api'
-// import jwt_decode from 'jwt-decode'
+import { jwtDecode } from "jwt-decode";
 //import { decode } from 'punycode'
 import userService from '@/services/userService'
 
@@ -104,7 +104,7 @@ const store = createStore({
         })
     },
     async getUserFromToken(state, token) {
-      const decodedToken = jwt_decode(token)
+      const decodedToken = jwtDecode(token)
       if(decodedToken.user_id) {
         const response = await userService.fetchUser(decodedToken.user_id, token)
         return response.data
@@ -113,7 +113,7 @@ const store = createStore({
     inspectToken() {
       const token = this.state.token
       if(token) {
-        const decoded = jwt_decode(token)
+        const decoded = jwtDecode(token)
         const exp = decoded.exp
         const orig_iat = decoded.orig_iat
         if(exp - (Date.now()/1000) < 1800 && (Date.now()/1000) - orig_iat < 628200) {

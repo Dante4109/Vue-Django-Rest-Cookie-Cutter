@@ -10,6 +10,24 @@ const router = createRouter({
       component: () => import('../pages/Home.vue')
     },
     {
+      path: '/password_reset/:resetToken',
+      name: 'passwordreset',
+      props: true,
+      component: () => import("../components/password_reset/Password_Reset.vue"),
+    },
+    {
+      path: '/email_verification/:verificationToken',
+      name: 'emailverification',
+      props: true,
+      component: () => import("../components/email_verification/Email_Verification.vue"),
+    },
+    {
+      path: '/ProfileSetup/',
+      name: 'profilesetup',
+      props: true,
+      component: () => import("../components/profile_setup/Profile_Setup.vue"),
+    },
+    {
     path: "/product/:productPath",
     name: "product",
     props: true,
@@ -30,11 +48,6 @@ const router = createRouter({
     name: "emitTestTS",
     component: () => import("../components/EmitTestTS.vue")
     },
-    {
-    path: "/login",
-    name: "login",
-    component: () => import("../components/registration/LoginForm.vue")
-    }
   ]
 })
 
