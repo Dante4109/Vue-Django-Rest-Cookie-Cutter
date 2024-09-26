@@ -214,21 +214,6 @@ export default {
         case(201):
           this.$emit("closeDialog")
           this.displayNotification('authentication', 'Registration successful!',`Welcome aboard! Please check your inbox for your verification email in order to log in.`, 'success')
-
-
-          /*
-          this.$store.dispatch('obtainToken', { email: this.email, password: this.password})
-            .then((response) => {
-              this.$store.dispatch('getUserFromToken', response.data.access)
-                .then((user) => {
-                  if (!user.id) {
-                    this.displayNotification('authentication', 'Login failed', 'Please try refreshing the page and logging in again.', 'error')
-                  } else {
-                    this.$store.commit('updateSessionUser', user)
-                      this.openDashboard();
-                  }
-                })    
-              })*/
               break;
           default:
             this.displayNotification('authentication', 'Registration failed', response.data.detail, 'error')
@@ -239,7 +224,7 @@ export default {
     openDashboard() {
       this.$router.replace(this.next)
     },
-    async newPlayerProfile(user_id) {
+    async newProfile(user_id) {
         let id = {  
           "id": user_id
         }
@@ -247,11 +232,11 @@ export default {
           "user": id
         }
         // console.log(payload)
-        const response = await userService.createPlayerProfile(payload)
+        const response = await userService.createProfile(payload)
         .then((response) => { 
         switch(response.status) {
           case(200): 
-            console.log("Player profile created successfully")
+            console.log("User Profile created successfully")
             this.refreshUser()
             return true 
           case(401): 
@@ -260,13 +245,13 @@ export default {
           }
         });
       },
-    async checkPlayerProfile(user) {
+    async checkProfile(user) {
           if(user.player_profile_id != null) {
             console.log("Found")
             return true 
           }
           else {
-          const newProfile = await this.newPlayerProfile(user.id)
+          const newProfile = await this.newProfile(user.id)
           return newProfile
         }
       },

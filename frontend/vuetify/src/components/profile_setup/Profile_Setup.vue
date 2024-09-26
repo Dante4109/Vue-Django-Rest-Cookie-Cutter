@@ -68,7 +68,7 @@ export default {
         let payload = {
           "user": id
         }
-        const tokenStatus = await userService.createUserProfile(payload);
+        const tokenStatus = await userService.createProfile(payload);
         return tokenStatus.status===201?true:false
       },
 

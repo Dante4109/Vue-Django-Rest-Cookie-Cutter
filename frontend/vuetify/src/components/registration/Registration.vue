@@ -57,7 +57,6 @@ export default {
       this.dialog = false
     },
     openDialog() {
-      this.console("clicked login button")
       this.dialog = true;
 
       if(data.next) {
@@ -84,8 +83,7 @@ export default {
 
   },
   created() {
-    this.emitter.on('mydialog', () => {
-      console.log("clicked login button")
+    this.emitter.on('account_access', data => {
       this.dialog = true;
 
       if(data.next) {

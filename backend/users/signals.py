@@ -7,6 +7,7 @@ from .serializers import UserSerializer
 import uuid
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+import os
 
 
 @receiver(post_save, sender=CustomUser)
@@ -21,9 +22,9 @@ def post_save_create_profile(sender, instance, created, **kwargs):
 
         # Sending the Email
         # replace with environment file eventually
-        site_url = "https://www.affinitycore.net"
-        site_full_name = "Affinity Core"
-        site_shortcut_name = "affinitycore.net"
+        site_url = os.getenv("SITE_URL")
+        site_full_name = os.getenv("SITE_FULL_NAME")
+        site_shortcut_name = os.getenv("SITE_SHORTCUT_NAME")
 
         context = {
             "email": instance.email,
@@ -36,6 +37,8 @@ def post_save_create_profile(sender, instance, created, **kwargs):
 
         email_html_message = render_to_string("user_email_verification.html", context)
 
+        print(f"no-reply@{site_shortcut_name}")
+
         msg = EmailMultiAlternatives(
             # title:
             "Email Verification for {}".format(site_full_name),
@@ -43,8 +46,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
             # email_plaintext_message,
             email_html_message,
             # from:
-            # "no-reply@{}".format(site_shortcut_name),
-            "NoReply@AffinityCore.net",
+            (f"no-reply@{site_shortcut_name}"),
             # to:
             [instance.email],
         )

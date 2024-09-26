@@ -28,6 +28,6 @@
 
 `select * from users_customuser;`
 
-`ALTER TABLE player_profile_playerprofile`
+`ALTER TABLE player_profile_profile`
 
 `RENAME COLUMN <current_column_name> TO <new_column_nane>;`

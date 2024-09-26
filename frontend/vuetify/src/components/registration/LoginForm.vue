@@ -64,13 +64,25 @@ export default {
       .then((response) => {
         switch(response.status) {
           case (500):
-            this.displayNotification('authentication', 'Login failed', 'Something went wrong on our end.' + '\n' + 'Hang tight we are working on it.', 'error')
+            this.displayNotification(
+              'authentication',
+              'Login failed',
+              'Something went wrong on our end.' + '\n' + 'Hang tight we are working on it.',
+              'error')
             break;
           case (404):
-            this.displayNotification('authentication', 'Login failed', 'Something went wrong on our end.' + '\n' + 'Hang tight we are working on it.',  'error')
+            this.displayNotification(
+              'authentication',
+              'Login failed',
+              'Something went wrong on our end.' + '\n' + 'Hang tight we are working on it.',
+              'error')
             break;  
           case (401):
-            this.displayNotification('authentication', 'Login failed', 'Incorrect Username/Password.' + '\n' + 'Please try again',  'error')
+            this.displayNotification(
+              'authentication',
+              'Login failed',
+              'Incorrect Username/Password.' + '\n' + 'Please try again',
+              'error')
             break;  
           case (200):
             this.$store.dispatch('getUserFromToken', response.data.access)
@@ -78,17 +90,26 @@ export default {
                   if(user.is_verified) {
                     this.$store.commit('updateSessionUser', user)                
                       if(user.profile_id) {
-                        this.displayNotification('authentication', 'Login successful', `Welcome back.`, 'success')
+                        this.displayNotification(
+                          'authentication',
+                          'Login successful',
+                          `Welcome back.`,
+                          'success')
                         this.$emit("closeDialog")
                       }
                       else {
-                          console.log("Logging in first time. Creating player profile")
+                          console.log("Logging in first time. Creating user profile")
                           this.$emit("closeDialog")
                           this.$router.push("/ProfileSetup/")
                           }
                         }
                   else {                    
-                    this.displayNotification('authentication', 'Email Not Verified', `Please check your inbox for your verification email` + '\n' + 'and follow the instructions to activate your account.', 'error')
+                    this.displayNotification(
+                      'authentication',
+                      'Email Not Verified',
+                      `Please check your inbox for your verification email` + '\n'
+                      + 'and follow the instructions to activate your account.',
+                      'error')
                   }
                 })
               break;

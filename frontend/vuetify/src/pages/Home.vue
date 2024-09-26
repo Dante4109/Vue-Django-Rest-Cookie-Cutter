@@ -1,9 +1,9 @@
 <template>
-  <HelloWorld />
+  <Welcome />
 </template>
 
 <script setup>
-import HelloWorld from '@/components/HelloWorld.vue';
+import Welcome from '@/components/Welcome.vue';
 
 
   //

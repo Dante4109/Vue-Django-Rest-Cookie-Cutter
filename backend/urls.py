@@ -63,7 +63,7 @@ urlpatterns = [
     ),
     path("api/", include("backend.profile.routers")),
     path(
-        r"^api/password_reset/",
+        r"api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
     ),
     path("api/profilesetup/", ProfileSetup.as_view(), name="profile_setup"),

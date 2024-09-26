@@ -92,13 +92,39 @@ class UserViewSet(viewsets.ViewSet):
         serializer = UserSerializer(obj)
         return Response(serializer.data)
 
+    def delete(self, request):
+        if "email" in request.data.keys():
+            user_email = request.data["email"]
+            try:
+                obj = get_user_model().objects.get(email=user_email)
+            except:
+                return Response(
+                    (f"error: User: {user_email} was not found"), status=404
+                )
+            self.check_object_permissions(self.request, obj)
+            try:
+                obj.delete()
+                return Response((f"User: {user_email} was deleted"), status=204)
+            except:
+                return Response((f"User: {user_email} was not deleted"), status=500)
+        else:
+            return Response(
+                {"error": "Data is invalid. Please provide a valid email."}, status=400
+            )
+
     def get_permissions(self):
         if self.request.method == "POST":
             self.permission_classes = (AllowAny,)
         if self.action == "list":
             self.permission_classes = [IsSuperUser]
         if self.action == "detail":
+            self.permission_classes = (
+                [
+                    IsUser,
+                ],
+            )
+        if self.action == "DELETE":
             self.permission_classes = [
-                IsUser,
+                IsSuperUser,
             ]
         return super(UserViewSet, self).get_permissions()

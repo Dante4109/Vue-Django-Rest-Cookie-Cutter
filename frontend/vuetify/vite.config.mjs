@@ -96,6 +96,12 @@ export default defineConfig({
           return 'static/[name]-[hash][extname]';
         },
       },
-    }
+    },
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        drop_debugger: false,
+      },
+    },
   },
 });

@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from rest_framework import viewsets, permissions
@@ -56,9 +58,9 @@ class CustomPasswordResetView:
 
         # locally defining static values for testing purposes
         # site_url = "https://www.affinitycore.com"
-        site_url = settings.SITE_URL
-        site_full_name = settings.SITE_FULL_NAME
-        site_shortcut_name = settings.SITE_SHORTCUT_NAME
+        site_url = os.getenv("SITE_URL")
+        site_full_name = os.getenv("SITE_FULL_NAME")
+        site_shortcut_name = os.getenv("SITE_SHORTCUT_NAME")
         # Testing URL Full Path
 
         # send an e-mail to the user

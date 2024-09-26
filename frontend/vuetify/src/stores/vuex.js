@@ -10,7 +10,7 @@ const store = createStore({
     token: localStorage.getItem('t'),
     refreshToken: localStorage.getItem('r'),
     authenticatedUser: localStorage.getItem('u'),
-    userPlayerProfile: localStorage.getItem('profile'),
+    userProfile: localStorage.getItem('profile'),
     globalDrawer: localStorage.getItem('drawer'),
     isLoggedIn: localStorage.getItem('isLoggedIn'),
     closedBanner: localStorage.getItem('closedBanner'),
@@ -36,7 +36,7 @@ const store = createStore({
         localStorage.setItem('u', JSON.stringify(user))
         state.authenticatedUser = JSON.stringify(user)
         },
-      updateSessionUserPlayerProfile(state, profile) {
+      updateSessionUserProfile(state, profile) {
         localStorage.setItem('profile', JSON.stringify(profile))
         state.authenticatedUser = JSON.stringify(profile)
         },
