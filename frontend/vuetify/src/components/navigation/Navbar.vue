@@ -43,43 +43,28 @@
 
 <v-spacer></v-spacer>
 
-<div>
-<v-btn right Console @click="ConsoleTest"></v-btn>
-</div>
-
 <!-- Login or User profile icon -->
 <div :key="user" v-if="!user">
       <v-btn right icon @click="openAccountAccess">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
             <v-icon
             v-bind="attrs"
             v-on="on"
             >mdi-login</v-icon>
-            </template>
-              <span>Login or Sign Up</span>
-            </v-tooltip>
       </v-btn>
     </div>
 
-
     <div :key="user" v-else>
-      <v-btn right icon @click="toggleDrawer">
+      <v-btn icon right @click="toggleDrawer">
         <div v-if="user.profile.ImgUrl==='none' || ''">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
               <v-icon
                 v-bind="attrs"
                 v-on="on"
                 >mdi mdi-account-circle
               </v-icon>
-            </template>
-            <span>Login or Sign Up</span>
-          </v-tooltip>
         </div>
         <div v-else>
-          <v-avatar class="ma-4" size="40">
-            <img :src="user.profile.ImgUrl" />
+          <v-avatar size="36px" >
+            <v-img alt="Avatar" :src="user.profile.ImgUrl" />
           </v-avatar>
         </div>
       </v-btn>

@@ -1,113 +1,55 @@
 <template>
-  <v-navigation-drawer
-    style="max-height: 50vh;"
-    temporary
-    dark
-    right
-    fixed
-    width="256px"
-    color="primary"
-    v-if="$store.state.globalDrawer"
-    v-model="$store.state.globalDrawer"
-    :key="loggedIn"
-  >
+      <v-navigation-drawer 
+      style="max-height: 80vh;"
+      location="right" 
+      fixed
+      dark
+      temporary
+      width="256px"
+      v-if="$store.state.globalDrawer"
+      v-model="$store.state.globalDrawer"
+      :key="loggedIn"
 
-  <v-btn
-    icon
-    absolute
-    right
-    color="blood"
-    @click="drawer = false"
-  >
-    <v-icon>close</v-icon>
-  </v-btn>
-  <v-container class="pa-5">
-    <v-layout 
-      column 
-      align-center 
-      justify-center
-    >
-
-      <div v-if="!user">
-        <h2 class="title">User Settings</h2>
-      </div>
-
-      <div v-else>
-          <h2 class="title">{{ user.name }}</h2>
-          <p class="body-2 text-center">{{ user.email }}</p>
-          <div v-if="user.profile.ImgUrl==='none' || ''">
-            <v-avatar class="ma-4" size="80">
-            <img :src="images.blankProfile"/>
-          </v-avatar>
-        </div>
-        <div v-else>
-          <v-avatar class="ma-4" size="80">
-            <img :src="user.profile.ImgUrl" />
-          </v-avatar>
-        </div>
-      </div>
-
-         </v-layout>
-  </v-container>
-
-  <!-- User is authenticated -->
-    <v-list dense nav>
-      <!-- <v-subheader>Account</v-subheader> -->
-      <v-list-item-group
-        color="primary"
-        v-if="user"
       >
-        <v-list-item
-          @click="changeDashboardComponent(link.dashboardComponent)"
-          v-for="(link, i) in accountLinks"
-          :key="i"
-          :color="activeLinkColor"
-          :to="link.target"
-        >
-          <v-list-item-icon :color="activeLinkColor">
-            <v-icon v-text="link.icon"></v-icon>
-          </v-list-item-icon>
-            <v-list-item-title v-text="link.text"></v-list-item-title>
-        </v-list-item>
-      </v-list-item-group>
+        <template v-slot:prepend>
+          <v-list-item
+            v-if="user.profile.ImgUrl==='none' || ''"
+            lines="two"
+            :prepend-avatar=images.blankProfile
+            subtitle="Logged in"
+            :title=user.name
+            >
+          </v-list-item>
+          <v-list-item
+            v-else="user.profile.ImgUrl==='none' || ''"
+            lines="two"
+            :prepend-avatar=user.profile.ImgUrl
+            subtitle="Logged in"
+            :title=user.name
+            >
+          </v-list-item>          
+        </template>
 
-      <!-- User is NOT authenticated -->
-    <v-list-item-group
-      color="primary"
-      v-else
-    >
-        <v-list-item
-          @click="$eventHub.$emit('registration')"
-          :color="activeLinkColor"
-        >
-          <v-list-item-icon color="primary">
-            <v-icon>mdi-shield-account</v-icon>
-          </v-list-item-icon>
-            <v-list-item-title>Sign In</v-list-item-title>
-        </v-list-item>
-      </v-list-item-group>
+        <v-divider></v-divider>
 
-      <!-- <v-subheader>Quick Links</v-subheader> -->
-      <v-list-item-group 
-        color="primary"
-      >
-        <v-list-item
-          v-for="(link, i) in quickLinks"
-          :key="i"
-          :color="activeLinkColor"
-          :href="link.target"
-          :to=link.route
-          :target="link.external ? '_blank' : ''"
+        <v-list 
+        density="compact" 
+        nav
         >
-          <v-list-item-icon color="primary">
-            <v-icon v-text="link.icon"></v-icon>
-          </v-list-item-icon>
-            <v-list-item-title v-text="link.text"></v-list-item-title>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </v-navigation-drawer>
+          <v-list-item
+            @click="changeDashboardComponent(link.dashboardComponent)"
+            v-for="(link, i) in accountLinks"
+            :key="i"
+            :color="activeLinkColor"
+            :to="link.target"          
+            :prepend-icon=link.icon
+            :title="link.text"
+          >          
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
 </template>
+
 
 <script>
 import genericProfileImage from '@/assets/pageimages/Generic-profile-picture.jpg'

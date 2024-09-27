@@ -3,9 +3,9 @@
     <v-main>
       <Navbar />
       <v-layout>
-        <GlobalNavigation />
         <Registration />
       </v-layout>      
+      <GlobalNavigation />
       <router-view :key="$route.fullPath"/>
     </v-main>
     <notifications group="authentication" position="bottom right" style="z-index: 99999;"/>
