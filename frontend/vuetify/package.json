@@ -2,8 +2,8 @@
   "name": "VDRF",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "dev test": "vite --mode development",
+    "dev": "vite --mode development",    
+    "prod": "vite --mode production",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",

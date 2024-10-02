@@ -151,7 +151,13 @@ export default {
         console.log("clicked logout")
         this.drawerLogout()
       }
-      
+
+      else {
+        this.switchDashboardComponent(targetComponent)
+      }
+    },
+
+    switchDashboardComponent(targetComponent) {
       if (this.$route.name != 'dashboard') {
         this.$router.replace('dashboard')
           .then(() => {
