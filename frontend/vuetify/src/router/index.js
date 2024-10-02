@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import store from "@/stores/vuex"
+import Dashboard from '@/pages/Dashboard.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +10,23 @@ const router = createRouter({
       name: 'home',
       component: () => import('../pages/Home.vue')
     },
+    {
+    path: "/dashboard",
+    name: "dashboard",
+    component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      const user = JSON.parse(store.state.authenticatedUser);
+      if (user) {
+        next();
+      } else {
+        // eslint-disable-next-line no-console
+        console.log("Route rejected.");
+        next("/");
+      }
+    }
+  },
+
+    // Account registration and mangement
     {
       path: '/password_reset/:resetToken',
       name: 'passwordreset',
@@ -27,6 +45,20 @@ const router = createRouter({
       props: true,
       component: () => import("../components/profile_setup/Profile_Setup.vue"),
     },
+    {
+    path: "/logout",
+    name: "logout",
+    beforeEnter: (to, from, next) => {
+      if (store.state.authenticatedUser) {
+        store.dispatch("logout");
+        next("/");
+      }
+      this.$router.replace(this.next)
+      // Eventually route to "You have been successfully logged out page"
+      }
+    },
+    
+    // Tests. Should not be accessible in production.
     {
     path: "/product/:productPath",
     name: "product",

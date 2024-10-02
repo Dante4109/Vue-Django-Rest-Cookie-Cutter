@@ -9,7 +9,6 @@
       v-if="$store.state.globalDrawer"
       v-model="$store.state.globalDrawer"
       :key="loggedIn"
-
       >
         <template v-slot:prepend>
           <v-list-item
@@ -147,7 +146,9 @@ export default {
   },
   methods: {
     changeDashboardComponent(targetComponent) {
-      if(targetComponent==="logout") {
+      if (targetComponent === "logout") {
+        console.log(this.$route.name)
+        console.log("clicked logout")
         this.drawerLogout()
       }
       

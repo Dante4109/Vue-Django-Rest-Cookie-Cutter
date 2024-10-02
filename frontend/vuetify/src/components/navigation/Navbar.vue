@@ -129,7 +129,6 @@ export default {
 
     toggleDrawer() {
       // eslint-disable-next-line
-      console.log("Drawer Test")
       const drawer = this.$store.state.globalDrawer;
       if (drawer) {
         this.$store.commit("updateDrawer", false);
