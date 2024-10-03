@@ -27,15 +27,15 @@ load_dotenv(os.path.join(str(SETTINGS_DIR), ".env"))
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 SECRET_KEY = "p)r(%z$btd3bz%so29v$!$s0j9)ld9)ybq@r9nolo(t85j2!wk"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-# ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
+ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
 
-ALLOWED_HOSTS = ["vdrf-template-f3386182da01.herokuapp.com"]
+# ALLOWED_HOSTS = ["vdrf-template-f3386182da01.herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = [
