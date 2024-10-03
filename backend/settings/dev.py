@@ -35,7 +35,7 @@ DEBUG = os.getenv("DEBUG")
 
 # ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
 
-ALLOWED_HOSTS = ["https://git.heroku.com/vdrf-template.git"]
+ALLOWED_HOSTS = ["vdrf-template-f3386182da01.herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = [
