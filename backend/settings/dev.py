@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import datetime
 from datetime import timedelta
+import dj_database_url
 from dotenv import load_dotenv
 import os
 import json
@@ -126,7 +127,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {}
-if os.getenv("ENV_TYPE") != "PROD":
+if os.getenv("ENV_TYPE") == "DEV":
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME"),
@@ -207,10 +208,3 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 # EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL")
-
-# Override settings with local env vars
-try:
-    from .local import *
-except ImportError:
-    print("No local settings.")
-    pass
