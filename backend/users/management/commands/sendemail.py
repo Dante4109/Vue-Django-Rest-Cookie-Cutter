@@ -3,6 +3,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import render_to_string
 from django.dispatch import receiver
+from django.core.mail import send_mail
 
 
 class Command(BaseCommand):
@@ -10,9 +11,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         print("Sending test email...")
-        self.send_email()
+        self.send_formated_email()
 
-    def send_email(self):
+    def send_formated_email(self):
         """
         Sends an email to the specififed email address.
         """
@@ -53,5 +54,15 @@ class Command(BaseCommand):
             ["rogerjohnmorellizeller@gmail.com"],
         )
         msg.attach_alternative(email_html_message, "text/html")
-        msg.send()
+        msg.send(fail_silently=False)
         print("Email sent")
+
+    def send_baisc_email(self):
+
+        send_mail(
+            "Subject here",
+            "Here is the message.",
+            "noreply@rzeller.net",
+            ["rogerjohnmorellizeller@gmail.com"],
+            fail_silently=False,
+        )
