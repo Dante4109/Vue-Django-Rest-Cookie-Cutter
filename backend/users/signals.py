@@ -47,7 +47,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
             # email_plaintext_message,
             email_html_message,
             # from:
-            (f"no-reply@{site_shortcut_name}"),
+            (f"no-reply@{smtp_url}"),
             # to:
             [instance.email],
         )
