@@ -35,7 +35,13 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
 
+print(os.getenv("EMAIL_HOST_USER"))
+print(os.getenv("SITE_URL"))
+print(os.getenv("SITE_SHORTCUT_NAME"))
+print(os.getenv("SMTP_URL"))
+
 # ALLOWED_HOSTS = ["vdrf-template-f3386182da01.herokuapp.com"]
+ROOT_URLCONF = "rzeller.net"
 
 # Application definition
 INSTALLED_APPS = [
