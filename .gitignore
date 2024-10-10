@@ -12,10 +12,9 @@ __pycache__
 .env.local
 .env.*.local
 .env
-.env.other
-.env.prod
-.env_other
 .env_prod
+.env_old
+.env_other
 .venv
 .venv.local
 .venv.*.local
