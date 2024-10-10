@@ -1,1 +1,0 @@
-@click="$eventHub.$emit('registration')"
