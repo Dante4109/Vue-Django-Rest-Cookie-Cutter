@@ -61,6 +61,7 @@ class CustomPasswordResetView:
         site_url = os.getenv("SITE_URL")
         site_full_name = os.getenv("SITE_FULL_NAME")
         site_shortcut_name = os.getenv("SITE_SHORTCUT_NAME")
+        smtp_url = os.getenv("SMTP_URL")
         # Testing URL Full Path
 
         # send an e-mail to the user
@@ -72,7 +73,7 @@ class CustomPasswordResetView:
                 site_url, reset_password_token.key
             ),
             "site_name": site_shortcut_name,
-            "site_domain": site_url,
+            "site_domain": smtp_url,
         }
 
         # render email text

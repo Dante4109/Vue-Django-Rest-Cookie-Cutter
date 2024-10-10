@@ -80,4 +80,5 @@ urlpatterns = [
     # Web App Views
     path("", index_view, name="index"),
     path("email_verification/<str:token>", index_view, name="user_email_verificaiton"),
+    path("password_reset/<str:token>", index_view, name="user_password_reset"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

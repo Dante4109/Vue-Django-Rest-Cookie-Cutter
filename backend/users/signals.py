@@ -25,6 +25,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
         site_url = os.getenv("SITE_URL")
         site_full_name = os.getenv("SITE_FULL_NAME")
         site_shortcut_name = os.getenv("SITE_SHORTCUT_NAME")
+        smtp_url = os.getenv("SMTP_URL")
 
         context = {
             "email": instance.email,
@@ -32,7 +33,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
                 site_url, v_token
             ),
             "site_name": site_shortcut_name,
-            "site_domain": site_url,
+            "site_domain": smtp_url,
         }
 
         email_html_message = render_to_string("user_email_verification.html", context)
@@ -46,7 +47,7 @@ def post_save_create_profile(sender, instance, created, **kwargs):
             # email_plaintext_message,
             email_html_message,
             # from:
-            (f"no-reply@{site_shortcut_name}"),
+            (f"no-reply@{smtp_url}"),
             # to:
             [instance.email],
         )

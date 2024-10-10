@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import datetime
 from datetime import timedelta
+import dj_database_url
 from dotenv import load_dotenv
 import os
 import json
@@ -102,7 +103,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["frontend/dist", "backend/users"],
+        "DIRS": ["dist", "backend/users"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -123,7 +124,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {}
-if os.getenv("ENV_TYPE") != "PROD":
+if os.getenv("ENV_TYPE") == "DEV":
     DATABASES["default"] = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME"),
@@ -132,6 +133,8 @@ if os.getenv("ENV_TYPE") != "PROD":
         "PASSWORD": os.getenv("DB_PASSWORD"),
         "PORT": os.getenv("DB_PORT"),
     }
+
+# This setup is for getting production credentials from Heroku postgresql
 else:
     print("Looking for production database.")
     DB_URL = os.getenv("DATABASE_URL")
@@ -139,7 +142,6 @@ else:
     DATABASES["default"] = dj_database_url.config(
         conn_max_age=600, ssl_require=True, default=DB_URL
     )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -179,7 +181,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 # Place static in the same location as webpack build files
-STATIC_ROOT = os.path.join(BASE_DIR, "frontend", "dist", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "dist", "static")
 STATICFILES_DIRS = (
     ("js", os.path.join(STATIC_ROOT, "js")),
     ("css", os.path.join(STATIC_ROOT, "css")),
@@ -203,11 +205,7 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
-# EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL")
 
-# Override settings with local env vars
-try:
-    from .local import *
-except ImportError:
-    print("No local settings.")
-    pass
+# EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL")
+# Django displays the following error if this is set even when its False
+# ValueError: EMAIL_USE_TLS/EMAIL_USE_SSL are mutually exclusive, so only set one of those settings to True.
