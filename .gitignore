@@ -43,3 +43,6 @@ mediafiles_cdn
 api/static
 test data
 # Django files
+
+.coverage
+htmlcov
