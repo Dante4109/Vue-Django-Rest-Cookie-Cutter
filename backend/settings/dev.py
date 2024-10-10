@@ -28,20 +28,11 @@ load_dotenv(os.path.join(str(SETTINGS_DIR), ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
-SECRET_KEY = "p)r(%z$btd3bz%so29v$!$s0j9)ld9)ybq@r9nolo(t85j2!wk"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = json.loads(os.getenv("ALLOWED_HOSTS"))
-
-print(os.getenv("EMAIL_HOST"))
-print(os.getenv("EMAIL_HOST_USER"))
-print(os.getenv("SITE_URL"))
-print(os.getenv("SITE_SHORTCUT_NAME"))
-print(os.getenv("SMTP_URL"))
-
-# ALLOWED_HOSTS = ["vdrf-template-f3386182da01.herokuapp.com"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -142,6 +133,8 @@ if os.getenv("ENV_TYPE") == "DEV":
         "PASSWORD": os.getenv("DB_PASSWORD"),
         "PORT": os.getenv("DB_PORT"),
     }
+
+# This setup is for getting production credentials from Heroku postgresql
 else:
     print("Looking for production database.")
     DB_URL = os.getenv("DATABASE_URL")
@@ -149,7 +142,6 @@ else:
     DATABASES["default"] = dj_database_url.config(
         conn_max_age=600, ssl_require=True, default=DB_URL
     )
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -213,4 +205,7 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+
 # EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL")
+# Django displays the following error if this is set even when its False
+# ValueError: EMAIL_USE_TLS/EMAIL_USE_SSL are mutually exclusive, so only set one of those settings to True.
