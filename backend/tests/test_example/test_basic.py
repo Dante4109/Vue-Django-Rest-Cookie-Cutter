@@ -1,5 +1,7 @@
 import pytest
 
+from mixer.backend.django import mixer
+
 
 def test_case_1():
 

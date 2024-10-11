@@ -26,8 +26,6 @@ class ProfileView(viewsets.ModelViewSet):
         except Http404:
             return Response({"UserProfile not found"}, status=404)
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class ProfilePublicListView(views.APIView):
     permission_classes = [AllowAny]
