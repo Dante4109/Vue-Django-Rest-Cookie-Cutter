@@ -3,4 +3,8 @@ Vue.js 3.x.x and Django Rest Framework backend cookie cutter template. Use this 
 
 Run the make script to automatically setup the project and get straight to creating new models, views, and content. 
 
-See documentation for how to add new content. 
+View the demo here https://www.vue-django-rest-template.rzeller.net/
+
+See documentation for how to add new content. *coming soon* 
+
+
