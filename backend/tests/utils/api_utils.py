@@ -1,20 +1,14 @@
-import os, django
-
-django.setup()
-from django.contrib.auth import get_user_model
-from hypothesis.extra.django import TestCase
 import pytest
-from hypothesis import strategies as st, given
-from backend.profile.models import UserProfile
-from rest_framework.test import APIClient
-
+from django.contrib.auth import get_user_model
 from mixer.backend.django import mixer
+from django.test import TestCase
+from rest_framework.test import APIClient
+from rest_framework.reverse import reverse
 
 pytestmark = pytest.mark.django_db
 
 
-class TestUserProfile(TestCase):
-
+class TestAuthJWTAPIViews(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user_basic_data = {
@@ -39,14 +33,22 @@ class TestUserProfile(TestCase):
             password=self.user_admin_data["password"],
         )
 
-    def test_profile_can_be_created(self):
+    def test_get_access_token_basic_user(self):
+        """Obtains an access token and a refresh token
+        using the basic user account instance.
         """
-        Tests if a UserProfile can be created.
-        This will not write to the DB.
-        """
+        url = reverse("token_obtain_pair")
 
-        profile1 = mixer.blend(UserProfile, first_name="Tom")
+        # call the url
+        response = self.client.post(url, data=self.user_basic_data)
 
-        profile1 = UserProfile.objects.last()  # getting the last student
+        # assertions
+        # - json
+        # - status
 
-        assert profile1.first_name == "Tom"
+        print(response)
+
+        assert response.json() != None
+        assert response.json()["refresh"]
+        assert response.json()["access"]
+        assert response.status_code == 200

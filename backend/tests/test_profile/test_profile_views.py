@@ -1,5 +1,6 @@
 import pytest
-
+from django.contrib.auth import get_user_model
+from mixer.backend.django import mixer
 from backend.profile.models import UserProfile
 
 from mixer.backend.django import mixer
@@ -14,16 +15,44 @@ pytestmark = pytest.mark.django_db
 class TestUserProfileAPIViews(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.client.credentials(
-            Authorization="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4NjIzMDA2LCJpYXQiOjE3Mjg2MDUwMDYsImp0aSI6IjkzOTBiOGE3ODdjOTQ3Njg5MjNjNzhhN2Q5NzQzZTgxIiwidXNlcl9pZCI6MjJ9.jCeKucrKogjIWwTm7ogHfVxFzceOV-3mDO4Q3-QrVBE"
+        self.user_basic_data = {
+            "email": "basic_user@example.com",
+            "password": "password",
+        }
+
+        self.user_admin_data = {
+            "email": "admin_user@example.com",
+            "password": "password",
+        }
+
+        User = get_user_model()
+        # create basic user account for test
+        User.objects.create_user(
+            email=self.user_basic_data["email"],
+            password=self.user_basic_data["password"],
         )
 
-        print(self.client, "self.client")
+        # create super user account for test
+        User.objects.create_superuser(
+            email=self.user_admin_data["email"],
+            password=self.user_admin_data["password"],
+        )
+
+        # get auth token
+        url = reverse("token_obtain_pair")
+
+        # call the url
+        response = self.client.post(url, data=self.user_admin_data)
+        self.admin_access_token = response.json()["access"]
+
+        response = self.client.post(url, data=self.user_basic_data)
+        self.basic_access_token = response.json()["access"]
 
     def test_public_profile_list(self):
-        # create a profile
+        # create temp profiles
 
-        # profile = mixer.blend(UserProfile, uuid="ade019d6-fe17-4e0a-bed8-c4116dd69434")
+        profile1 = mixer.blend(UserProfile, first_name="John", last_name="Buck")
+        profile2 = mixer.blend(UserProfile, first_name="Mary", last_name="Doe")
 
         url = reverse("profilelist_public")
 
@@ -35,32 +64,60 @@ class TestUserProfileAPIViews(TestCase):
         # aseertions
         # - json
         # - status
+
         assert response.json() != None
-
-        # assert len(response.json()) == 2
-
+        assert response.json()[0]["first_name"] == "John"
+        assert response.json()[0]["last_name"] == "Buck"
+        assert response.json()[1]["first_name"] == "Mary"
+        assert response.json()[1]["last_name"] == "Doe"
+        assert UserProfile.objects.count() == 2
+        assert len(response.json()) == 2
         assert response.status_code == 200
 
-    def test_create_profile(self):
-        # data
+    def test_create_profile_api_admin(self):
+        # headers
+        header = {"HTTP_AUTHORIZATION": "Bearer {}".format(self.admin_access_token)}
 
-        input_data = {
-            "first_name": "John",
-        }
+        # data
+        input_data = {"first_name": "John", "last_name": "Buck"}
 
         url = "/api/UserProfile/"
 
         # call the url
-        response = self.client.post(url, data=input_data)
+        response = self.client.post(
+            url,
+            data=input_data,
+            **header,
+        )
 
         # assertions
-        # - json
-        # - status
+        assert response.status_code == 201
+        assert response.json() != None
+        assert response.json()["first_name"] == "John"
+        assert response.json()["last_name"] == "Buck"
+        assert UserProfile.objects.count() == 1
+        assert url == "/api/UserProfile/"
 
-        print(response)
+    def test_create_profile_api_basic(self):
+        # headers
+        header = {"HTTP_AUTHORIZATION": "Bearer {}".format(self.admin_access_token)}
 
-        # assert response.json() != None
-        # assert response.json()["first_name"] == "John"
-        # assert response.status_code == 201
-        # assert UserProfile.objects.count() == 1
+        # data
+        input_data = {"first_name": "John", "last_name": "Buck"}
+
+        url = "/api/UserProfile/"
+
+        # call the url
+        response = self.client.post(
+            url,
+            data=input_data,
+            **header,
+        )
+
+        # assertions
+        assert response.status_code == 201
+        assert response.json() != None
+        assert response.json()["first_name"] == "John"
+        assert response.json()["last_name"] == "Buck"
+        assert UserProfile.objects.count() == 1
         assert url == "/api/UserProfile/"
