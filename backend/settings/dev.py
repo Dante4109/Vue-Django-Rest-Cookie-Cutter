@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "backend.users",
     "backend.profile",
+    "backed.image_blob",
 ]
 
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(hours=5)}

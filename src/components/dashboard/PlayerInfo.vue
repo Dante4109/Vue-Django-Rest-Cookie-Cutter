@@ -117,7 +117,7 @@ methods: {
             })
         },
     async onUpload() {
-        await fileService.uploadImage(this.selectedImage)
+        await fileService.ImageBlob(this.selectedImage)
             .then (res => {
                 this.updateProfilePic(res.data.image)
                     
