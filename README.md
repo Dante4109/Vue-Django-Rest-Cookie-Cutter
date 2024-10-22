@@ -11,8 +11,8 @@ See documentation for how to add new content. *coming soon*
 
 ## Built in features:
 ---------------------------------------------
-- User account login / sign up -[x] Working!
-- Forgot Password / Password reset -[] Working!
+- User account login / sign up - Working!
+- Forgot Password / Password reset - Working!
 - Email Verification - Working! 
 - Side out user panel - Working!
 - Dynamic Navbar - *Coming Soon*
