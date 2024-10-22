@@ -135,6 +135,7 @@ if os.getenv("ENV_TYPE") == "DEV":
     }
 
 # This setup is for getting production credentials from Heroku postgresql
+# You can remove this if your prod database settings are also in your .env file in prod.
 else:
     print("Looking for production database.")
     DB_URL = os.getenv("DATABASE_URL")
