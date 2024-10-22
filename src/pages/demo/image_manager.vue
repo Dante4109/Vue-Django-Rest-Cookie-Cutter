@@ -4,7 +4,7 @@
       <v-layout column class="white--text">
         <v-row>
           <v-col cols="12">
-            <h1>Display and Accessibility</h1>
+            <h1>Image Manager</h1>
             <p>Page coming soon!</p>
           </v-col>
         </v-row>
@@ -15,6 +15,6 @@
 
 <script>
 export default {
-  name: "Feedback"
+  name: "Image Manager"
 };
 </script>
