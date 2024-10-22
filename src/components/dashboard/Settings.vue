@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12">
             <h1>Settings and Privacy</h1>
-            <p>New Component who this?</p>
+            <p>Page coming soon!</p>
           </v-col>
         </v-row>
       </v-layout>

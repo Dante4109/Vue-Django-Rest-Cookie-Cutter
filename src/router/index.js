@@ -58,6 +58,45 @@ const router = createRouter({
       }
     },
     
+    // Demo Pages
+
+    /*
+    Will eventually be added dynamically using
+    Full documentation for this feature can be found in the 
+    Official[unplugin - vue - router](https://github.com/posva/unplugin-vue-router) repository. 
+    */
+    {
+    path: "/demo/csvimport",
+    name: "csv_import",
+    props: true,
+    component: () => import("../pages/demo/csv_import.vue")
+    },
+    {
+    path: "/demo/filetree",
+    name: "file_tree",
+    props: true,
+    component: () => import("../pages/demo/file_tree.vue")
+    },
+    {
+    path: "/demo/imagemanager",
+    name: "image_manager",
+    props: true,
+    component: () => import("../pages/demo/image_manager.vue")
+    },
+    {
+    path: "/demo/mememaker",
+    name: "meme_maker",
+    props: true,
+    component: () => import("../pages/demo/meme_maker.vue")
+    },
+    {
+    path: "/demo/newsfeed",
+    name: "news_feed",
+    props: true,
+    component: () => import("../pages/demo/news_feed.vue")
+    },
+
+
     // Tests. Should not be accessible in production.
     {
     path: "/product/:productPath",

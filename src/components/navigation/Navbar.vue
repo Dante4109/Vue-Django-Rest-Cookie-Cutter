@@ -85,8 +85,8 @@ export default {
       menuRouteList: [],
       dialog: false,
       navItems: ([
-        { num: 1, title: 'Game', highlight: false },
-        { num: 2, title: 'Cards', highlight: false },
+        { num: 1, title: 'Demos', highlight: false },
+        { num: 2, title: 'About', highlight: false },
         { num: 3, title: 'Community', highlight: false },
         { num: 4, title: 'News', highlight: false },
         { num: 5, title: 'Test', highlight: false }
