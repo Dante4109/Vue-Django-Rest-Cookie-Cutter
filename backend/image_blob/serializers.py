@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import ImageBlob
 from backend.profile.models import UserProfile
-from backend.profile.serializers import UserProfileSerializer
+from backend.profile.serializers import ProfileSerializer
 
 size = serializers.SerializerMethodField()
 name = serializers.SerializerMethodField()
@@ -10,7 +10,7 @@ date_created = serializers.SerializerMethodField()
 
 
 class ImageBlobSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(read_only=True)
+    profile = ProfileSerializer(read_only=True)
     profile_id = serializers.IntegerField(write_only=True, allow_null=True)
 
     class Meta:

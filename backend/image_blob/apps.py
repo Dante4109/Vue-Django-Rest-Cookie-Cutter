@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class ImageBlobConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "image_blob"
+    name = "backend.image_blob"
+    verbose_name = "image_blob"

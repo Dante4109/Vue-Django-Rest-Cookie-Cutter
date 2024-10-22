@@ -77,6 +77,7 @@ urlpatterns = [
         ProfilePublicListView.as_view(),
         name="profilelist_public",
     ),
+    path("api/", include("backend.image_blob.routers")),
     # Web App Views
     path("", index_view, name="index"),
     path("email_verification/<str:token>", index_view, name="user_email_verificaiton"),
