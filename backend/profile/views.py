@@ -3,6 +3,7 @@ from rest_framework.permissions import BasePermission, AllowAny, SAFE_METHODS
 from backend.users import models
 from django.shortcuts import get_object_or_404, render
 from rest_framework import status, viewsets, views
+
 from .models import UserProfile
 from .serializers import ProfileSerializer
 from django.http import Http404, JsonResponse, HttpResponse
@@ -14,17 +15,7 @@ import json
 import requests
 
 
-class ProfileView(viewsets.ModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = ProfileSerializer
-
-    def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            self.perform_destroy(instance)
-            return Response({"UserProfile deleted"}, status=200)
-        except Http404:
-            return Response({"UserProfile not found"}, status=404)
+# TO-DO Replace error handling print statements with log statements.
 
 
 class ProfilePublicListView(views.APIView):
@@ -71,9 +62,6 @@ class ProfileSetup(views.APIView):
             print("Unable to create new UserProfile. User does not exist")
             return JsonResponse({"error": "User does not exist."}, status=404)
 
-        print(str(user))
-        # print(str(user.profile.id))
-
         profile_defaults = {
             "last_updated": None,
             "first_name": "",
@@ -89,9 +77,7 @@ class ProfileSetup(views.APIView):
         NewProfile, created = UserProfile.objects.get_or_create(
             id=user.profile_id, defaults=profile_defaults
         )
-        print("We are actually here")
         NewProfile.save()
-        print("We are here")
         user.profile = NewProfile
         user.save()
 
@@ -117,11 +103,9 @@ class ProfileSetup(views.APIView):
         )
 
         serialized = json.loads(serialized)
-        print(serialized)
         instance = serialized[0]["fields"]
 
         # add pk to instance
-        print(serialized[0]["pk"])
         instance["id"] = serialized[0]["pk"]
 
         return JsonResponse(instance, safe=False, status=201)
